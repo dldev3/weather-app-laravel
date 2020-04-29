@@ -22,7 +22,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/weather', function () {
 
     $apiKey = config('services.openweathermap.key');
+    $city = request('city');
 
-    $response = Zttp::get("http://api.openweathermap.org/data/2.5/weather?q=colombo&appid=$apiKey");
+    $response = Zttp::get("http://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey");
     return $response->json();
 });

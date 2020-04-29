@@ -7,15 +7,15 @@
       <div class="current-weather flex items-center justify-between px-6 py-8">
         <div class="flex items-center">
           <div>
-            <div class="text-6xl font-semibold">8°C</div>
-            <div>Feels like 2°C</div>
+            <div class="text-6xl font-semibold">{{currentTemperature.actual}}°C</div>
+            <div>Feels like {{currentTemperature.feels}}°C</div>
           </div>
           <div class="mx-5"> 
-            <div class="font-semibold">Cloudy</div>
-            <div>Toronto, Canada</div>
+            <div class="font-semibold">{{ currentTemperature.summary }}</div>
+            <div>{{ location.city.toUpperCase() }}, {{location.country}}</div>
           </div>
         </div>
-        <div>icon</div>
+        <div><img v-bind:src='currentTemperature.icon' /></div>
       </div> <!-- current-weather END -->
 
       <div class="future-weather text-sm bg-gray-800 px-6 py-8 overflow-hidden">
@@ -65,14 +65,37 @@
         mounted() {
             this.fetchData()
         },
+        data(){
+          return {
+            currentTemperature :{
+                actual: '',
+                feels: '',
+                summary: '',
+                icon: ''
+            },
+            location: {
+              city: 'kandy',
+              country: ''
+            }
+          }
+        },
         methods: {
           fetchData(){
-            fetch(`/api/weather`)
+            fetch(`/api/weather?city=${this.location.city}`)
             .then(response => response.json())
             .then(data => {
-              console.log(data);
+              // console.log(data);
+              this.currentTemperature.actual = Math.round((data.main.temp/9.5));
+              this.currentTemperature.feels = Math.round((data.main.feels_like/9.5));
+              this.currentTemperature.summary = (data.weather[0].description).toUpperCase();
+              //console.log(`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`);
+              
+              this.currentTemperature.icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+              this.location.country = data.sys.country;
+              
             });
           }
         }
     }
 </script>
+
