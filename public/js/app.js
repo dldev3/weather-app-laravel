@@ -1972,7 +1972,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    console.log('Component mounted.');
+    this.fetchData();
+  },
+  methods: {
+    fetchData: function fetchData() {
+      fetch("/api/weather").then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log(data);
+      });
+    }
   }
 });
 

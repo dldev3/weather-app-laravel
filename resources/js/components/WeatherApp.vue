@@ -63,7 +63,16 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+            this.fetchData()
+        },
+        methods: {
+          fetchData(){
+            fetch(`/api/weather`)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+            });
+          }
         }
     }
 </script>
