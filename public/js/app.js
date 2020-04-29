@@ -1932,47 +1932,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
+    var _this = this;
+
     this.fetchData();
+    var placesAutocomplete = places({
+      appId: 'plDSCUCVMUFO',
+      apiKey: 'a272632ed4c734bff5985af2bd3e64c2',
+      container: document.querySelector('#address')
+    }).configure({
+      type: 'city',
+      aroundLatLngViaIP: false
+    });
+    var $address = document.querySelector('#address-value');
+    placesAutocomplete.on('change', function (e) {
+      //console.log(e.suggestion);
+      $address.textContent = e.suggestion.value;
+      _this.location.city = "".concat(e.suggestion.name);
+    });
+    placesAutocomplete.on('clear', function () {
+      $address.textContent = 'none';
+    });
+  },
+  watch: {
+    location: {
+      handler: function handler(newValue, oldvalue) {
+        this.fetchData();
+      },
+      deep: true
+    }
   },
   data: function data() {
     return {
@@ -1982,26 +1971,27 @@ __webpack_require__.r(__webpack_exports__);
         summary: '',
         icon: ''
       },
+      daily: [],
       location: {
-        city: 'kandy',
+        city: 'New York',
         country: ''
       }
     };
   },
   methods: {
     fetchData: function fetchData() {
-      var _this = this;
+      var _this2 = this;
 
       fetch("/api/weather?city=".concat(this.location.city)).then(function (response) {
         return response.json();
       }).then(function (data) {
-        // console.log(data);
-        _this.currentTemperature.actual = Math.round(data.main.temp / 9.5);
-        _this.currentTemperature.feels = Math.round(data.main.feels_like / 9.5);
-        _this.currentTemperature.summary = data.weather[0].description.toUpperCase(); //console.log(`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`);
+        //console.log(data);
+        _this2.currentTemperature.actual = Math.round(data.main.temp / 9.5);
+        _this2.currentTemperature.feels = Math.round(data.main.feels_like / 9.5);
+        _this2.currentTemperature.summary = data.weather[0].description.toUpperCase(); //console.log(`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`);
 
-        _this.currentTemperature.icon = "http://openweathermap.org/img/wn/".concat(data.weather[0].icon, "@2x.png");
-        _this.location.country = data.sys.country;
+        _this2.currentTemperature.icon = "http://openweathermap.org/img/wn/".concat(data.weather[0].icon, "@2x.png");
+        _this2.location.country = data.sys.country;
       });
     }
   }
@@ -37702,9 +37692,7 @@ var render = function() {
               _c("img", { attrs: { src: _vm.currentTemperature.icon } })
             ])
           ]
-        ),
-        _vm._v(" "),
-        _vm._m(1)
+        )
       ]
     )
   ])
@@ -37715,87 +37703,20 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "places-input text-gray-800" }, [
-      _c("input", { staticClass: "w-full", attrs: { type: "text" } })
+      _c("input", {
+        staticClass: "form-control w-full",
+        attrs: {
+          type: "search",
+          id: "address",
+          placeholder: "Where are we going?"
+        }
+      }),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v("Selected: "),
+        _c("strong", { attrs: { id: "address-value" } }, [_vm._v("none")])
+      ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "future-weather text-sm bg-gray-800 px-6 py-8 overflow-hidden"
-      },
-      [
-        _c("div", { staticClass: "flex items-center" }, [
-          _c(
-            "div",
-            { staticClass: "w-1/6 text-lg text-gray-200 font-semibold" },
-            [_vm._v("MON")]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "w-4/6 px-4 flex items-center" }, [
-            _c("div", [_vm._v("icon")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ml-3" }, [
-              _vm._v("Cloudy with a chance of showers")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "w-1/6 text-right" }, [
-            _c("div", [_vm._v("5°C")]),
-            _vm._v(" "),
-            _c("div", [_vm._v("-2°C")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "flex items-center mt-8" }, [
-          _c(
-            "div",
-            { staticClass: "w-1/6 text-lg text-gray-200 font-semibold" },
-            [_vm._v("MON")]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "w-4/6 px-4 flex items-center" }, [
-            _c("div", [_vm._v("icon")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ml-3" }, [
-              _vm._v("Cloudy with a chance of showers")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "w-1/6 text-right" }, [
-            _c("div", [_vm._v("5°C")]),
-            _vm._v(" "),
-            _c("div", [_vm._v("-2°C")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "flex items-center mt-8" }, [
-          _c(
-            "div",
-            { staticClass: "w-1/6 text-lg text-gray-200 font-semibold" },
-            [_vm._v("MON")]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "w-4/6 px-4 flex items-center" }, [
-            _c("div", [_vm._v("icon")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ml-3" }, [
-              _vm._v("Cloudy with a chance of showers")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "w-1/6 text-right" }, [
-            _c("div", [_vm._v("5°C")]),
-            _vm._v(" "),
-            _c("div", [_vm._v("-2°C")])
-          ])
-        ])
-      ]
-    )
   }
 ]
 render._withStripped = true

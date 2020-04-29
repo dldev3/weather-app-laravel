@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Weather App</title>
     <link rel="stylesheet" href="../css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/places.js@1.18.2" defer></script>
     <script src="../js/app.js" defer></script>
 </head>
 <body class="bg-blue-200">

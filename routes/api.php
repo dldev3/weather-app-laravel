@@ -27,3 +27,4 @@ Route::get('/weather', function () {
     $response = Zttp::get("http://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey");
     return $response->json();
 });
+
